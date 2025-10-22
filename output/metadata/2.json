@@ -1,9 +1,8 @@
 {
   "name": "Anime Vibes #002",
-  "symbol": "N100",
-  "description": "Cel-shaded perfection that captures the essence of modern anime art.",
-  "seller_fee_basis_points": 500,
-  "image": "2.png",
+  "description": "Pixel-perfect anime art created by AI on Intel N100 - completely GPU-free!",
+  "image": "https://minipcn100project.github.io/N100project/images/nft_002.png",
+  "external_url": "https://minipcn100project.github.io/N100project/nft/2.html",
   "attributes": [
     {
       "trait_type": "Generation",
@@ -20,21 +19,11 @@
     {
       "trait_type": "Style",
       "value": "nft"
+    },
+    {
+      "trait_type": "Network",
+      "value": "polygon"
     }
   ],
-  "properties": {
-    "files": [
-      {
-        "uri": "2.png",
-        "type": "image/png"
-      }
-    ],
-    "category": "image",
-    "creators": [
-      {
-        "address": "",
-        "share": 100
-      }
-    ]
-  }
+  "index": 2
 }
