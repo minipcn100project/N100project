@@ -1,0 +1,29 @@
+{
+  "name": "Anime Vibes #002",
+  "description": "Pixel-perfect anime art created by AI on Intel N100 - completely GPU-free!",
+  "image": "https://minipcn100project.github.io/N100project/images/nft_002.png",
+  "external_url": "https://minipcn100project.github.io/N100project/nft/2.html",
+  "attributes": [
+    {
+      "trait_type": "Generation",
+      "value": "AI"
+    },
+    {
+      "trait_type": "Hardware",
+      "value": "Intel N100 CPU"
+    },
+    {
+      "trait_type": "GPU",
+      "value": "None"
+    },
+    {
+      "trait_type": "Style",
+      "value": "nft"
+    },
+    {
+      "trait_type": "Network",
+      "value": "polygon"
+    }
+  ],
+  "index": 2
+}
