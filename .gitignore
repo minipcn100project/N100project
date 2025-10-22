@@ -2,9 +2,11 @@
 .env
 .env.local
 
-# Solana Wallet (IMPORTANT!)
+# Wallets (IMPORTANT - NEVER COMMIT!)
 wallet.json
+polygon_wallet.json
 *.json.key
+*_wallet.json
 
 # Python
 __pycache__/
