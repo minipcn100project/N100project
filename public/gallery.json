@@ -1,3 +1,15 @@
 {
-  "nfts": []
+  "nfts": [
+    {
+      "index": 1,
+      "title": "Silent Moments",
+      "description": "Photorealistic artistry that blurs the line between imagination and reality.",
+      "image": "./images/nft_001.png",
+      "mint_url": "https://minipcn100project.github.io/N100project/nft/1.html",
+      "landing_url": "./nft/1.html",
+      "price": 0.5,
+      "style": "realistic",
+      "created_at": "2025-10-22 15:55:06"
+    }
+  ]
 }
