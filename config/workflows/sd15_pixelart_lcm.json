@@ -1,0 +1,214 @@
+{
+  "last_node_id": 14,
+  "last_link_id": 18,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "Note",
+      "pos": [50, 50],
+      "size": [400, 220],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "properties": {},
+      "widgets_values": [
+        "SD 1.5 Pixel Art Style Workflow (CPU Optimized)\n\n설정:\n- 모델: SD 1.5 (v1-5-pruned-emaonly)\n- LoRA 1: LCM (0.8) - 3-8 스텝 고속 생성\n- LoRA 2: Pixel Art (0.85) - 픽셀 아트 스타일\n- LoRA 3: Add More Details (0.3) - 적당한 디테일\n\nSampler: lcm (LCM 전용)\nScheduler: sgm_uniform\nSteps: 6 (CPU에 최적화)\nCFG: 1.5 (LCM에서는 낮게 설정)\n해상도: 512x512\n\n사용법:\n1. 프롬프트 입력 (예: pixel art, retro game character, 16-bit style)\n2. Queue Prompt 클릭\n3. CPU 모드에서 약 2-3분 소요\n\n추천 프롬프트: pixel art, 16-bit, retro game, video game sprite"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 2,
+      "type": "CheckpointLoaderSimple",
+      "pos": [50, 320],
+      "size": [315, 98],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "outputs": [
+        {"name": "MODEL", "type": "MODEL", "links": [1], "slot_index": 0},
+        {"name": "CLIP", "type": "CLIP", "links": [2], "slot_index": 1},
+        {"name": "VAE", "type": "VAE", "links": [11], "slot_index": 2}
+      ],
+      "properties": {},
+      "widgets_values": ["v1-5-pruned-emaonly.safetensors"]
+    },
+    {
+      "id": 3,
+      "type": "LoraLoader",
+      "pos": [400, 320],
+      "size": [315, 126],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {"name": "model", "type": "MODEL", "link": 1},
+        {"name": "clip", "type": "CLIP", "link": 2}
+      ],
+      "outputs": [
+        {"name": "MODEL", "type": "MODEL", "links": [4], "slot_index": 0},
+        {"name": "CLIP", "type": "CLIP", "links": [5], "slot_index": 1}
+      ],
+      "properties": {},
+      "widgets_values": ["lcm-lora-sd15.safetensors", 0.8, 0.8]
+    },
+    {
+      "id": 4,
+      "type": "LoraLoader",
+      "pos": [750, 320],
+      "size": [315, 126],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {"name": "model", "type": "MODEL", "link": 4},
+        {"name": "clip", "type": "CLIP", "link": 5}
+      ],
+      "outputs": [
+        {"name": "MODEL", "type": "MODEL", "links": [6], "slot_index": 0},
+        {"name": "CLIP", "type": "CLIP", "links": [7], "slot_index": 1}
+      ],
+      "properties": {},
+      "widgets_values": ["pixel-art.safetensors", 0.85, 0.85]
+    },
+    {
+      "id": 5,
+      "type": "LoraLoader",
+      "pos": [1100, 320],
+      "size": [315, 126],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {"name": "model", "type": "MODEL", "link": 6},
+        {"name": "clip", "type": "CLIP", "link": 7}
+      ],
+      "outputs": [
+        {"name": "MODEL", "type": "MODEL", "links": [8], "slot_index": 0},
+        {"name": "CLIP", "type": "CLIP", "links": [9, 10], "slot_index": 1}
+      ],
+      "properties": {},
+      "widgets_values": ["add-more-details.safetensors", 0.3, 0.3]
+    },
+    {
+      "id": 6,
+      "type": "CLIPTextEncode",
+      "pos": [400, 520],
+      "size": [400, 200],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {"name": "clip", "type": "CLIP", "link": 9}
+      ],
+      "outputs": [
+        {"name": "CONDITIONING", "type": "CONDITIONING", "links": [12], "slot_index": 0}
+      ],
+      "properties": {},
+      "widgets_values": ["pixel art, retro game character, knight with sword, 16-bit style, video game sprite, sharp pixels, vibrant colors"]
+    },
+    {
+      "id": 7,
+      "type": "CLIPTextEncode",
+      "pos": [400, 770],
+      "size": [400, 200],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {"name": "clip", "type": "CLIP", "link": 10}
+      ],
+      "outputs": [
+        {"name": "CONDITIONING", "type": "CONDITIONING", "links": [13], "slot_index": 0}
+      ],
+      "properties": {},
+      "widgets_values": ["realistic, photographic, blurry, smooth, anti-aliased, low quality, ugly, deformed, watermark, text"]
+    },
+    {
+      "id": 8,
+      "type": "EmptyLatentImage",
+      "pos": [50, 520],
+      "size": [315, 106],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "outputs": [
+        {"name": "LATENT", "type": "LATENT", "links": [14], "slot_index": 0}
+      ],
+      "properties": {},
+      "widgets_values": [512, 512, 1]
+    },
+    {
+      "id": 9,
+      "type": "KSampler",
+      "pos": [850, 520],
+      "size": [315, 262],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {"name": "model", "type": "MODEL", "link": 8},
+        {"name": "positive", "type": "CONDITIONING", "link": 12},
+        {"name": "negative", "type": "CONDITIONING", "link": 13},
+        {"name": "latent_image", "type": "LATENT", "link": 14}
+      ],
+      "outputs": [
+        {"name": "LATENT", "type": "LATENT", "links": [15], "slot_index": 0}
+      ],
+      "properties": {},
+      "widgets_values": [1, "fixed", 6, 1.5, "lcm", "sgm_uniform", 1]
+    },
+    {
+      "id": 10,
+      "type": "VAEDecode",
+      "pos": [1200, 520],
+      "size": [210, 46],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {"name": "samples", "type": "LATENT", "link": 15},
+        {"name": "vae", "type": "VAE", "link": 11}
+      ],
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [16], "slot_index": 0}
+      ],
+      "properties": {}
+    },
+    {
+      "id": 11,
+      "type": "SaveImage",
+      "pos": [1450, 520],
+      "size": [315, 270],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": 16}
+      ],
+      "properties": {},
+      "widgets_values": ["pixelart_"]
+    }
+  ],
+  "links": [
+    [1, 2, 0, 3, 0, "MODEL"],
+    [2, 2, 1, 3, 1, "CLIP"],
+    [4, 3, 0, 4, 0, "MODEL"],
+    [5, 3, 1, 4, 1, "CLIP"],
+    [6, 4, 0, 5, 0, "MODEL"],
+    [7, 4, 1, 5, 1, "CLIP"],
+    [8, 5, 0, 9, 0, "MODEL"],
+    [9, 5, 1, 6, 0, "CLIP"],
+    [10, 5, 1, 7, 0, "CLIP"],
+    [11, 2, 2, 10, 1, "VAE"],
+    [12, 6, 0, 9, 1, "CONDITIONING"],
+    [13, 7, 0, 9, 2, "CONDITIONING"],
+    [14, 8, 0, 9, 3, "LATENT"],
+    [15, 9, 0, 10, 0, "LATENT"],
+    [16, 10, 0, 11, 0, "IMAGE"]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}
