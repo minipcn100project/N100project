@@ -24,42 +24,26 @@ class ComfyUIImageGenerator:
         """
         Load workflow file and convert to API format
         """
-        workflow_files = {
-            "realistic": "sd15_realistic_lcm.json",
-            "ghibli": "sd15_ghibli_lcm.json",
-            "pixelart": "sd15_pixelart_lcm.json",
-            "flat2d_anime": "sd15_flat2d_anime_lcm.json"
-        }
+        # Use pixelart workflow for all styles as requested
+        workflow_file = "sd15_pixelart_lcm_api.json"
 
-        workflow_path = self.workflow_dir / workflow_files.get(style, workflow_files["realistic"])
+        workflow_path = self.workflow_dir / workflow_file
 
+        # If API version doesn't exist, convert it
         if not workflow_path.exists():
-            # Copy from ComfyUI directory
-            comfyui_workflow = Path(f"C:/StabilityMatrix/Data/Packages/ComfyUI/user/default/workflows/{workflow_files[style]}")
-            if comfyui_workflow.exists():
-                import shutil
-                shutil.copy(comfyui_workflow, workflow_path)
+            ui_workflow_path = self.workflow_dir / "sd15_pixelart_lcm.json"
+            if ui_workflow_path.exists():
+                from scripts.workflow_converter import convert_ui_to_api
+                with open(ui_workflow_path, 'r', encoding='utf-8') as f:
+                    ui_workflow = json.load(f)
+                api_workflow = convert_ui_to_api(ui_workflow)
+                with open(workflow_path, 'w', encoding='utf-8') as f:
+                    json.dump(api_workflow, f, indent=2)
+            else:
+                raise Exception(f"Workflow file not found: {ui_workflow_path}")
 
         with open(workflow_path, 'r', encoding='utf-8') as f:
-            workflow_data = json.load(f)
-
-        # Convert ComfyUI UI format to API format
-        if "nodes" in workflow_data:
-            # This is UI format, convert to API format
-            api_workflow = {}
-            for node in workflow_data["nodes"]:
-                node_id = str(node["id"])
-                api_workflow[node_id] = {
-                    "class_type": node["type"],
-                    "inputs": {}
-                }
-                # Add widget values as inputs
-                if "widgets_values" in node:
-                    api_workflow[node_id]["inputs"]["widgets_values"] = node["widgets_values"]
-            return api_workflow
-        else:
-            # Already in API format
-            return workflow_data
+            return json.load(f)
 
     def queue_prompt(self, prompt):
         """
@@ -123,21 +107,23 @@ class ComfyUIImageGenerator:
         print(f" Loading {style} workflow...")
         workflow = self.load_workflow(style)
 
-        #   ()
+        # Update prompt if provided
         if custom_prompt:
-            # positive prompt  
+            # Find positive prompt node (usually node 6)
             for node_id, node_data in workflow.items():
                 if node_data.get("class_type") == "CLIPTextEncode":
-                    if "inputs" in node_data and "text" in node_data["inputs"]:
-                        #   CLIPTextEncode positive prompt
-                        node_data["inputs"]["text"] = custom_prompt
+                    if "text" in node_data.get("inputs", {}):
+                        # First CLIPTextEncode is positive prompt
+                        node_data["inputs"]["text"] = f"pixel art, {custom_prompt}, 16-bit style, retro game, vibrant colors, sharp pixels"
                         break
 
-        # Seed  (   )
+        # Randomize seed for variety
         import random
         for node_id, node_data in workflow.items():
             if node_data.get("class_type") == "KSampler":
-                node_data["inputs"]["seed"] = random.randint(1, 2**32 - 1)
+                if "seed" in node_data.get("inputs", {}):
+                    node_data["inputs"]["seed"] = random.randint(1, 2**32 - 1)
+                    print(f" Random seed: {node_data['inputs']['seed']}")
 
         print(" Sending prompt to ComfyUI...")
         prompt_response = self.queue_prompt(workflow)
