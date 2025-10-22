@@ -1,0 +1,40 @@
+{
+  "name": "Peaceful Valley #003",
+  "symbol": "N100",
+  "description": "Studio Ghibli-inspired beauty captured in digital brushstrokes.",
+  "seller_fee_basis_points": 500,
+  "image": "3.png",
+  "attributes": [
+    {
+      "trait_type": "Generation",
+      "value": "AI"
+    },
+    {
+      "trait_type": "Hardware",
+      "value": "Intel N100 CPU"
+    },
+    {
+      "trait_type": "GPU",
+      "value": "None"
+    },
+    {
+      "trait_type": "Style",
+      "value": "nft"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "3.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "",
+        "share": 100
+      }
+    ]
+  }
+}
