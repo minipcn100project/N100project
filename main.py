@@ -147,17 +147,22 @@ Lazy Mint
         print(f"{'='*70}\n")
 
     except Exception as e:
+        import traceback
         print(f"\n{'='*70}")
         print(f"[ERROR] Workflow failed: {str(e)}")
+        print(f"{'='*70}")
+        print("\nFull error traceback:")
+        traceback.print_exc()
         print(f"{'='*70}\n")
 
-        #   
+        #
         log_dir = Path("logs")
         log_dir.mkdir(exist_ok=True)
         with open(log_dir / "errors.log", "a", encoding='utf-8') as f:
             f.write(f"{datetime.now()}: NFT #{nft_index} - {str(e)}\n")
+            f.write(traceback.format_exc())
 
-        #    
+        #
         nft_index -= 1
         save_counter()
 
