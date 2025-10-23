@@ -14,7 +14,8 @@
 6. [환경 변수 설정 (.env)](#6-환경-변수-설정-env)
 7. [스마트 컨트랙트 배포](#7-스마트-컨트랙트-배포)
 8. [자동 발행 시작](#8-자동-발행-시작)
-9. [문제 해결](#9-문제-해결)
+9. [Rarible 자동 리스팅](#9-rarible-자동-리스팅)
+10. [문제 해결](#10-문제-해결)
 
 ---
 
@@ -539,9 +540,100 @@ kill -9 [PID]
 
 ---
 
-## 9. 문제 해결
+## 9. Rarible 자동 리스팅
 
-### 9.1 Python 관련
+### 🎨 NFT를 자동으로 여러 마켓에 리스팅하기
+
+**Rarible에 리스팅하면 OpenSea, LooksRare, X2Y2에도 자동 표시됩니다!**
+
+### **9.1 왜 Rarible을 사용하나요?**
+
+| 기능 | 수동 리스팅 (OpenSea) | Rarible 자동 리스팅 |
+|------|---------------------|-------------------|
+| 소요 시간 | NFT당 2-3분 | NFT당 5초 |
+| 표시 마켓 | OpenSea만 | Rarible + OpenSea + LooksRare + X2Y2 |
+| 자동화 가능 | ❌ 불가능 | ✅ 완전 자동 |
+| 100개 NFT | 200-300분 | 8-10분 |
+
+**⭐ 한 번의 명령으로 4개 마켓에 동시 리스팅!**
+
+### **9.2 단일 NFT 리스팅**
+
+```bash
+# NFT #1을 $10 USD로 리스팅
+python scripts/rarible_lister.py 1
+
+# 사용자 정의 가격 ($15 USD)
+python scripts/rarible_lister.py 1 15
+```
+
+### **9.3 여러 NFT 한 번에 리스팅**
+
+```bash
+# NFT #1, #2, #3, #4, #5 리스팅
+python scripts/rarible_lister.py 1,2,3,4,5
+
+# 또는 Node.js 직접 사용
+node scripts/rarible_auto_list.js 1,2,3,4,5
+```
+
+### **9.4 모든 NFT 자동 리스팅**
+
+```bash
+# nft_counter.txt 기준 모든 NFT 리스팅
+python scripts/rarible_lister.py all
+```
+
+### **9.5 출력 예시**
+
+```
+======================================================================
+RARIBLE AUTO-LISTING SCRIPT
+======================================================================
+
+[OK] Rarible SDK initialized
+
+======================================================================
+LISTING NFT #1 ON RARIBLE
+======================================================================
+
+[INFO] Price: $10 USD (11.1111 MATIC)
+[1/3] Preparing sell order...
+[2/3] Sending listing transaction...
+[3/3] Listing successful!
+
+======================================================================
+SUCCESS! NFT LISTED ON MULTIPLE MARKETPLACES
+======================================================================
+
+Marketplace Links:
+Rarible:   https://rarible.com/token/polygon/0xf5420c.../1
+OpenSea:   https://opensea.io/assets/matic/0xf5420c.../1
+LooksRare: https://looksrare.org/collections/0xf5420c.../1
+
+Note: May take 5-10 minutes to appear on OpenSea
+======================================================================
+```
+
+### **9.6 OpenSea에서 확인**
+
+리스팅 후 5-10분 대기하면 OpenSea에도 자동 표시됩니다:
+
+```
+https://opensea.io/assets/matic/0xf5420c3E42bb575a2c15434278655c837ca3783E/1
+```
+
+**⭐ "Buy now" 버튼이 활성화되어 구매 가능합니다!**
+
+### **9.7 상세 가이드**
+
+더 자세한 내용은 **[RARIBLE_AUTO_LISTING_GUIDE.md](./RARIBLE_AUTO_LISTING_GUIDE.md)** 참고
+
+---
+
+## 16. 문제 해결
+
+### 16.1 Python 관련
 
 #### "python을 찾을 수 없습니다"
 - Python 설치 시 "Add to PATH" 체크 확인
@@ -557,7 +649,7 @@ source venv/bin/activate  # Linux/macOS
 pip install -r requirements.txt
 ```
 
-### 9.2 ComfyUI 관련
+### 16.2 ComfyUI 관련
 
 #### "ComfyUI에 연결할 수 없습니다"
 1. ComfyUI 실행 확인: http://127.0.0.1:8188
@@ -572,7 +664,7 @@ pip install -r requirements.txt
 - 정상입니다! CPU 모드는 60초 소요
 - GPU 없이 작동하므로 느린 것이 정상
 
-### 9.3 Ollama 관련
+### 16.3 Ollama 관련
 
 #### "Ollama에 연결할 수 없습니다"
 ```bash
@@ -586,7 +678,7 @@ ollama list
 ollama pull llama3.2:1b
 ```
 
-### 9.4 블록체인 관련
+### 16.4 블록체인 관련
 
 #### "insufficient funds for gas"
 - **Polygon**: MATIC 잔액 확인 (최소 0.1 MATIC 필요)
@@ -606,7 +698,7 @@ ollama pull llama3.2:1b
 GAS_PRICE=50  # Gwei
 ```
 
-### 9.5 IPFS/Pinata 관련
+### 16.5 IPFS/Pinata 관련
 
 #### "Pinata 업로드 실패"
 1. API 키 확인: https://app.pinata.cloud/developers/api-keys
@@ -617,7 +709,7 @@ GAS_PRICE=50  # Gwei
 - 10-30초 대기 (IPFS 전파 시간)
 - Pinata 대시보드에서 업로드 확인: https://app.pinata.cloud/pinmanager
 
-### 9.6 NFT 마켓플레이스 관련
+### 16.6 NFT 마켓플레이스 관련
 
 #### "OpenSea에 NFT가 표시되지 않습니다"
 - 민팅 후 5-10분 대기 (인덱싱 시간)
@@ -634,7 +726,7 @@ https://opensea.io/assets/matic/[CONTRACT_ADDRESS]/[TOKEN_ID]
 https://explorer.solana.com/address/[MINT_ADDRESS]
 ```
 
-### 9.7 자동 민팅 관련
+### 16.7 자동 민팅 관련
 
 #### "자동 민팅이 멈췄습니다"
 1. 로그 확인:
@@ -657,7 +749,7 @@ type automation.log  # Windows
 
 ---
 
-## 10. 시작 체크리스트
+## 16. 시작 체크리스트
 
 모든 설정이 완료되었는지 확인:
 
@@ -704,7 +796,7 @@ type automation.log  # Windows
 
 ---
 
-## 11. 주요 링크 모음
+## 16. 주요 링크 모음
 
 ### 소프트웨어 다운로드
 - **Python**: https://www.python.org/downloads/
@@ -743,7 +835,7 @@ type automation.log  # Windows
 
 ---
 
-## 12. 자주 묻는 질문 (FAQ)
+## 16. 자주 묻는 질문 (FAQ)
 
 ### Q1: GPU 없이도 작동하나요?
 **A**: 네! 이 프로젝트는 Intel N100 같은 저사양 CPU 전용으로 설계되었습니다. 이미지 생성에 60초 정도 걸리지만 완벽히 작동합니다.
@@ -778,7 +870,7 @@ type automation.log  # Windows
 
 ---
 
-## 13. 다음 단계
+## 16. 다음 단계
 
 ### 설치 완료 후
 1. **첫 NFT 민팅**: `python sequential_dual_mint.py --once`
@@ -799,7 +891,7 @@ type automation.log  # Windows
 
 ---
 
-## 14. 지원 및 문의
+## 16. 지원 및 문의
 
 ### 문제 발생 시
 1. 먼저 [9. 문제 해결](#9-문제-해결) 섹션 확인
@@ -815,7 +907,7 @@ type automation.log  # Windows
 
 ---
 
-## 15. 면책 조항
+## 16. 면책 조항
 
 ⚠️ **중요 공지**
 

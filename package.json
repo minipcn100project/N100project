@@ -1,0 +1,25 @@
+{
+  "name": "nft-automation-project",
+  "version": "1.0.0",
+  "description": "**GPU 없는 Intel N100 Mini PC로 완전 자동화된 NFT 생성 및 민팅 시스템**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minipcn100project/N100project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minipcn100project/N100project/issues"
+  },
+  "homepage": "https://github.com/minipcn100project/N100project#readme",
+  "dependencies": {
+    "@rarible/sdk": "^0.13.200-beta.0",
+    "dotenv": "^17.2.3",
+    "ethers": "^5.8.0"
+  }
+}
