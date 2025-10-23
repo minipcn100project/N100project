@@ -2,132 +2,655 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime Vibes - N100 NFT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 2: Installing ComfyUI | N100 Automation</title>
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@N100project">
-    <meta name="twitter:title" content="Anime Vibes #002">
-    <meta name="twitter:description" content="Cel-shaded perfection that captures the essence of modern anime art.">
-    <meta name="twitter:image" content="https://minipcn100project.github.io/N100project/images/nft_002.png">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="CPU-only Stable Diffusion. This will be slow.">
+    <meta name="keywords" content="NFT, Pixel Art, Robot, Intel N100, Automation, Polygon">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Anime Vibes #002">
-    <meta property="og:description" content="Cel-shaded perfection that captures the essence of modern anime art.">
+    <meta property="og:title" content="Day 2: Installing ComfyUI">
+    <meta property="og:description" content="CPU-only Stable Diffusion. This will be slow.">
     <meta property="og:image" content="https://minipcn100project.github.io/N100project/images/nft_002.png">
     <meta property="og:url" content="https://minipcn100project.github.io/N100project/nft/2.html">
     <meta property="og:type" content="website">
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Day 2: Installing ComfyUI">
+    <meta name="twitter:description" content="CPU-only Stable Diffusion. This will be slow.">
+    <meta name="twitter:image" content="https://minipcn100project.github.io/N100project/images/nft_002.png">
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0e27;
+            color: #e0e0e0;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
             padding: 20px;
         }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .nft-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        .nft-index {
-            opacity: 0.7;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-        .nft-title {
-            font-size: 2.5em;
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #00ff41;
             margin-bottom: 30px;
-            font-weight: bold;
         }
+
+        .badge {
+            display: inline-block;
+            background: #00ff41;
+            color: #0a0e27;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nft-number {
+            font-size: 14px;
+            color: #00ff41;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .blockchain {
+            font-size: 13px;
+            color: #888;
+            text-transform: uppercase;
+        }
+
         .nft-image {
             width: 100%;
-            max-width: 512px;
-            border-radius: 15px;
+            max-width: 400px;
             margin: 0 auto 30px;
             display: block;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 255, 65, 0.2);
+            background: #1a1f3a;
         }
-        .nft-description {
-            font-size: 1.3em;
-            line-height: 1.8;
+
+        .story-section {
+            background: rgba(0, 255, 65, 0.05);
+            border-left: 4px solid #00ff41;
+            padding: 20px;
             margin-bottom: 30px;
+            border-radius: 8px;
         }
-        .mint-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 18px 50px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 1.3em;
-            font-weight: bold;
-            margin: 20px 0;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 5px 20px rgba(245, 87, 108, 0.4);
+
+        .story-section h2 {
+            font-size: 16px;
+            color: #00ff41;
+            margin-bottom: 12px;
+            font-weight: 600;
         }
-        .mint-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 30px rgba(245, 87, 108, 0.6);
+
+        .story-section p {
+            font-size: 15px;
+            color: #d0d0d0;
+            line-height: 1.7;
         }
-        .specs {
-            margin-top: 40px;
+
+        .price-section {
+            text-align: center;
             padding: 25px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 15px;
+            background: linear-gradient(135deg, #1a1f3a 0%, #0a0e27 100%);
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #00ff41;
         }
-        .specs div {
-            margin: 12px 0;
-            font-size: 1.1em;
+
+        .price-label {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 8px;
+            text-transform: uppercase;
         }
-        .back-link {
-            display: inline-block;
-            margin-top: 30px;
-            color: white;
+
+        .price {
+            font-size: 32px;
+            color: #00ff41;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .price-usd {
+            font-size: 16px;
+            color: #aaa;
+        }
+
+        .marketplace-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .marketplace-btn {
+            display: block;
+            padding: 16px;
+            background: #00ff41;
+            color: #0a0e27;
             text-decoration: none;
-            font-size: 1.1em;
-            transition: transform 0.3s;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 255, 65, 0.3);
         }
-        .back-link:hover {
-            transform: translateX(-5px);
+
+        .marketplace-btn:active {
+            transform: scale(0.95);
+        }
+
+        .marketplace-btn .icon {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: #00ff41;
+            font-weight: 600;
+        }
+
+        .explorer-link {
+            display: block;
+            text-align: center;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #00ff41;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+        }
+
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 25px;
+        }
+
+        .warning-box strong {
+            display: block;
+            color: #ffc107;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .warning-box p {
+            font-size: 13px;
+            color: #d0d0d0;
+            line-height: 1.6;
+        }
+
+        .tech-specs {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .tech-specs h3 {
+            font-size: 14px;
+            color: #00ff41;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .tech-item {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 13px;
+            color: #ccc;
+        }
+
+        .tech-item:last-child {
+            border-bottom: none;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            color: #666;
+        }
+
+        .footer a {
+            color: #00ff41;
+            text-decoration: none;
+        }
+
+        .holder-section {
+            background: rgba(0, 255, 65, 0.05);
+            border: 2px solid #00ff41;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .holder-section h3 {
+            font-size: 16px;
+            color: #00ff41;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .holder-info {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .holder-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .holder-address {
+            font-size: 14px;
+            color: #00ff41;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+            margin-bottom: 10px;
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .collection-item {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
+            text-decoration: none;
+            transition: transform 0.2s;
+            border: 1px solid rgba(0, 255, 65, 0.2);
+        }
+
+        .collection-item:hover {
+            transform: scale(1.05);
+            border-color: #00ff41;
+        }
+
+        .collection-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            background: #1a1f3a;
+        }
+
+        .collection-item .nft-id {
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+            color: #00ff41;
+            font-weight: 600;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+        }
+
+        .view-opensea-btn {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            background: rgba(0, 255, 65, 0.1);
+            color: #00ff41;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            border: 1px solid #00ff41;
+            margin-top: 12px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .price {
+                font-size: 28px;
+            }
+
+            .marketplace-links {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="nft-card">
-            <div class="nft-index">#002</div>
-            <h1 class="nft-title">Anime Vibes</h1>
+        <!-- Header -->
+        <div class="header">
+            <div class="badge">🤖 Automation Experiment</div>
+            <div class="nft-number">NFT #002</div>
+            <h1>Day 2: Installing ComfyUI</h1>
+            <div class="blockchain">Polygon Blockchain</div>
+        </div>
 
-            <img src="../images/nft_002.png"
-                 alt="Anime Vibes"
-                 class="nft-image">
+        <!-- NFT Image -->
+        <img src="../images/nft_002.png"
+             alt="Day 2: Installing ComfyUI"
+             class="nft-image"
+             loading="lazy">
 
-            <p class="nft-description">Cel-shaded perfection that captures the essence of modern anime art.</p>
+        <!-- Story Section -->
+        <div class="story-section">
+            <h2>📖 Story</h2>
+            <p>CPU-only Stable Diffusion. This will be slow.</p>
+        </div>
 
-            <a href="https://minipcn100project.github.io/N100project/nft/2.html" class="mint-button">
-                 Mint Now for 0.5 SOL
+        <!-- Price Section -->
+        <div class="price-section">
+            <div class="price-label">Fixed Price</div>
+            <div class="price">$10</div>
+            <div class="price-usd">≈ 11.11 MATIC</div>
+        </div>
+
+        <!-- Marketplace Links -->
+        <div class="marketplace-links">
+            <a href="https://opensea.io/assets/matic/0xf5420c3E42bb575a2c15434278655c837ca3783E/3" class="marketplace-btn" target="_blank" rel="noopener">
+                <span class="icon">🛒</span>
+                OpenSea
             </a>
+            <a href="https://rarible.com/token/polygon/0xf5420c3E42bb575a2c15434278655c837ca3783E:3" class="marketplace-btn" target="_blank" rel="noopener">
+                <span class="icon">🛒</span>
+                Rarible
+            </a>
+        </div>
 
-            <div class="specs">
-                <div> <strong>Style:</strong> Flat2D_Anime</div>
-                <div> <strong>Generated by:</strong> Intel N100 Mini PC (CPU Only)</div>
-                <div> <strong>Created:</strong> 2025-10-22 16:08:12</div>
-                <div> <strong>Blockchain:</strong> Solana (Lazy Minting)</div>
-                <div> <strong>Royalty:</strong> 5%</div>
+        <!-- Info Grid -->
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-label">Day</div>
+                <div class="info-value">2</div>
             </div>
+            <div class="info-card">
+                <div class="info-label">Style</div>
+                <div class="info-value">Pixel Art</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Chain</div>
+                <div class="info-value">Polygon</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Hardware</div>
+                <div class="info-value">N100 CPU</div>
+            </div>
+        </div>
 
-            <a href="../index.html" class="back-link"> Back to Gallery</a>
+        <!-- Explorer Link -->
+        <a href="https://polygonscan.com/token/0xf5420c3E42bb575a2c15434278655c837ca3783E?a=3" class="explorer-link" target="_blank" rel="noopener">
+            🔍 View on Blockchain Explorer
+        </a>
+
+        <!-- NFT Holder Section -->
+        <div class="holder-section">
+            <h3>👤 Current Holder</h3>
+            <div class="holder-info">
+                <div class="holder-label">Owner Address</div>
+                <div class="holder-address" id="holder-address">Loading...</div>
+                <a href="#" id="opensea-profile-link" class="view-opensea-btn" target="_blank" rel="noopener" style="display:none;">
+                    🖼️ View Full Collection on OpenSea
+                </a>
+            </div>
+            <div id="holder-collection">
+                <div class="loading-spinner">⏳ Loading holder's collection...</div>
+            </div>
+        </div>
+
+        <!-- Warning -->
+        <div class="warning-box">
+            <strong>⚠️ Experimental Project</strong>
+            <p>This NFT is part of a hardware automation experiment. Purchase at your own discretion. The project may end at any time.</p>
+        </div>
+
+        <!-- Tech Specs -->
+        <div class="tech-specs">
+            <h3>⚙️ Technical Specs</h3>
+            <div class="tech-item">🖥️ Intel N100 Mini PC (No GPU)</div>
+            <div class="tech-item">🎨 Stable Diffusion 1.5 (CPU mode)</div>
+            <div class="tech-item">🤖 Llama 3.2 1B (Metadata)</div>
+            <div class="tech-item">📦 IPFS Storage (Pinata)</div>
+            <div class="tech-item">⛓️ Dual-Chain (Polygon + Solana)</div>
+            <div class="tech-item">🔄 100% Automated</div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Generated with Intel N100 CPU | <a href="../index.html">View All NFTs</a></p>
+            <p style="margin-top: 10px; font-size: 11px;">Last Updated: 2025-10-24</p>
         </div>
     </div>
+
+    <!-- JavaScript for fetching holder data -->
+    <script>
+        const CONTRACT_ADDRESS = '0xf5420c3E42bb575a2c15434278655c837ca3783E';
+        const TOKEN_ID = 3;
+        const BLOCKCHAIN = 'Polygon';
+
+        // Polygon RPC endpoint
+        const POLYGON_RPC = 'https://polygon-rpc.com/';
+
+        // ERC-721 ABI (only ownerOf function needed)
+        const ERC721_ABI = [{
+            "inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }],
+            "name": "ownerOf",
+            "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }],
+            "name": "balanceOf",
+            "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "uint256", "name": "index", "type": "uint256" }],
+            "name": "tokenOfOwnerByIndex",
+            "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+            "stateMutability": "view",
+            "type": "function"
+        }];
+
+        async function fetchOwner() {
+            try {
+                // Call ownerOf function
+                const data = {
+                    jsonrpc: '2.0',
+                    method: 'eth_call',
+                    params: [{
+                        to: CONTRACT_ADDRESS,
+                        data: '0x6352211e' + TOKEN_ID.toString(16).padStart(64, '0')
+                    }, 'latest'],
+                    id: 1
+                };
+
+                const response = await fetch(POLYGON_RPC, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.result) {
+                    const ownerAddress = '0x' + result.result.slice(-40);
+                    document.getElementById('holder-address').textContent = ownerAddress;
+
+                    // Set OpenSea profile link
+                    const profileLink = document.getElementById('opensea-profile-link');
+                    profileLink.href = `https://opensea.io/${ownerAddress}?search[chains][0]=MATIC`;
+                    profileLink.style.display = 'block';
+
+                    // Fetch owner's collection
+                    await fetchOwnerCollection(ownerAddress);
+                } else {
+                    document.getElementById('holder-address').textContent = 'Not yet minted';
+                    document.getElementById('holder-collection').innerHTML = '<div class="loading-spinner">NFT not yet claimed</div>';
+                }
+            } catch (error) {
+                console.error('Error fetching owner:', error);
+                document.getElementById('holder-address').textContent = 'Error loading';
+                document.getElementById('holder-collection').innerHTML = '<div class="loading-spinner">Failed to load collection</div>';
+            }
+        }
+
+        async function fetchOwnerCollection(ownerAddress) {
+            try {
+                // Get balance
+                const balanceData = {
+                    jsonrpc: '2.0',
+                    method: 'eth_call',
+                    params: [{
+                        to: CONTRACT_ADDRESS,
+                        data: '0x70a08231' + ownerAddress.slice(2).padStart(64, '0')
+                    }, 'latest'],
+                    id: 2
+                };
+
+                const balanceResponse = await fetch(POLYGON_RPC, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(balanceData)
+                });
+
+                const balanceResult = await balanceResponse.json();
+                const balance = parseInt(balanceResult.result, 16);
+
+                if (balance === 0) {
+                    document.getElementById('holder-collection').innerHTML = '<div class="loading-spinner">No NFTs from this collection</div>';
+                    return;
+                }
+
+                // Fetch up to 12 NFTs
+                const maxDisplay = Math.min(balance, 12);
+                let collectionHTML = '<div class="holder-label">Holder owns ' + balance + ' NFT(s) from this collection</div><div class="collection-grid">';
+
+                for (let i = 0; i < maxDisplay; i++) {
+                    const tokenData = {
+                        jsonrpc: '2.0',
+                        method: 'eth_call',
+                        params: [{
+                            to: CONTRACT_ADDRESS,
+                            data: '0x2f745c59' +
+                                  ownerAddress.slice(2).padStart(64, '0') +
+                                  i.toString(16).padStart(64, '0')
+                        }, 'latest'],
+                        id: 3 + i
+                    };
+
+                    try {
+                        const tokenResponse = await fetch(POLYGON_RPC, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(tokenData)
+                        });
+
+                        const tokenResult = await tokenResponse.json();
+                        const tokenId = parseInt(tokenResult.result, 16);
+                        const nftIndex = tokenId - 1; // Token ID starts from 1, index from 0
+
+                        collectionHTML += `
+                            <a href="${nftIndex}.html" class="collection-item">
+                                <img src="../images/nft_${nftIndex.toString().padStart(3, '0')}.png"
+                                     alt="NFT #${nftIndex}"
+                                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect fill=\'%231a1f3a\' width=\'100\' height=\'100\'/%3E%3Ctext x=\'50\' y=\'50\' text-anchor=\'middle\' fill=\'%2300ff41\' font-size=\'12\'%3E#${nftIndex}%3C/text%3E%3C/svg%3E'">
+                                <div class="nft-id">NFT #${nftIndex}</div>
+                            </a>
+                        `;
+                    } catch (err) {
+                        console.error('Error fetching token', i, err);
+                    }
+                }
+
+                collectionHTML += '</div>';
+
+                if (balance > maxDisplay) {
+                    collectionHTML += `<div style="text-align: center; margin-top: 12px; color: #888; font-size: 13px;">... and ${balance - maxDisplay} more</div>`;
+                }
+
+                document.getElementById('holder-collection').innerHTML = collectionHTML;
+            } catch (error) {
+                console.error('Error fetching collection:', error);
+                document.getElementById('holder-collection').innerHTML = '<div class="loading-spinner">Failed to load collection</div>';
+            }
+        }
+
+        // Load owner data when page loads
+        if (BLOCKCHAIN === 'Polygon' && CONTRACT_ADDRESS) {
+            fetchOwner();
+        } else {
+            document.getElementById('holder-address').textContent = 'Solana blockchain - View on Explorer';
+            document.getElementById('holder-collection').innerHTML = '<div class="loading-spinner">Solana holder info coming soon</div>';
+        }
+    </script>
 </body>
 </html>
