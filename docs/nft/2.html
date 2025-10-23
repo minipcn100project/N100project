@@ -1,120 +1,56 @@
-# scripts/landing_page_generator.py
-"""
-Mobile-Friendly NFT Landing Page Generator
-Simple, clean design optimized for mobile viewing
-"""
-from pathlib import Path
-import json
-import os
-from datetime import datetime
-
-class LandingPageGenerator:
-    def __init__(self, output_dir="docs/nft"):
-        self.output_dir = Path(output_dir)
-        self.output_dir.mkdir(parents=True, exist_ok=True)
-        self.gallery_file = Path("docs/gallery.json")
-
-    def generate_nft_page(self, nft_data):
-        """
-        Generate mobile-optimized NFT landing page
-        Shows: Image, Title, Story, Marketplace Links
-        """
-        domain = os.getenv("DOMAIN", "minipcn100project.github.io/N100project")
-
-        # Calculate price
-        price_usd = nft_data.get('price', 10)
-        price_matic = round(price_usd / 0.90, 2)
-        price_sol = round(price_usd / 150, 3)  # Assuming 1 SOL = $150
-
-        # Blockchain info
-        blockchain = nft_data.get('blockchain', 'Polygon')
-        nft_index = nft_data.get('index', 0)
-
-        # Marketplace links
-        if blockchain == 'Polygon':
-            contract = "0xf5420c3E42bb575a2c15434278655c837ca3783E"
-            token_id = nft_index + 1  # Contract starts from 1
-
-            opensea_url = f"https://opensea.io/assets/matic/{contract}/{token_id}"
-            rarible_url = f"https://rarible.com/token/polygon/{contract}:{token_id}"
-            explorer_url = f"https://polygonscan.com/token/{contract}?a={token_id}"
-
-            marketplace1_name = "OpenSea"
-            marketplace1_url = opensea_url
-            marketplace2_name = "Rarible"
-            marketplace2_url = rarible_url
-            price_display = f"{price_matic} MATIC"
-
-        else:  # Solana
-            mint_address = nft_data.get('mint_address', '')
-
-            opensea_url = f"https://magiceden.io/item-details/{mint_address}"
-            rarible_url = f"https://solanart.io/search/?token={mint_address}"
-            explorer_url = f"https://explorer.solana.com/address/{mint_address}"
-
-            marketplace1_name = "Magic Eden"
-            marketplace1_url = opensea_url
-            marketplace2_name = "Solanart"
-            marketplace2_url = rarible_url
-            price_display = f"{price_sol} SOL"
-
-        # Extract short description (first line only)
-        full_desc = nft_data.get('description', '')
-        short_desc = full_desc.split('\n')[0] if '\n' in full_desc else full_desc
-
-        html_template = f"""<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>{nft_data['title']} | N100 Automation</title>
+    <title>Day 2: Installing ComfyUI | N100 Automation</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="{short_desc}">
-    <meta name="keywords" content="NFT, Pixel Art, Robot, Intel N100, Automation, {blockchain}">
+    <meta name="description" content="CPU-only Stable Diffusion. This will be slow.">
+    <meta name="keywords" content="NFT, Pixel Art, Robot, Intel N100, Automation, Polygon">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="{nft_data['title']}">
-    <meta property="og:description" content="{short_desc}">
-    <meta property="og:image" content="https://{domain}/images/nft_{nft_index:03d}.png">
-    <meta property="og:url" content="https://{domain}/nft/{nft_index}.html">
+    <meta property="og:title" content="Day 2: Installing ComfyUI">
+    <meta property="og:description" content="CPU-only Stable Diffusion. This will be slow.">
+    <meta property="og:image" content="https://minipcn100project.github.io/N100project/images/nft_002.png">
+    <meta property="og:url" content="https://minipcn100project.github.io/N100project/nft/2.html">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{nft_data['title']}">
-    <meta name="twitter:description" content="{short_desc}">
-    <meta name="twitter:image" content="https://{domain}/images/nft_{nft_index:03d}.png">
+    <meta name="twitter:title" content="Day 2: Installing ComfyUI">
+    <meta name="twitter:description" content="CPU-only Stable Diffusion. This will be slow.">
+    <meta name="twitter:image" content="https://minipcn100project.github.io/N100project/images/nft_002.png">
 
     <style>
-        * {{
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }}
+        }
 
-        body {{
+        body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0a0e27;
             color: #e0e0e0;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-        }}
+        }
 
-        .container {{
+        .container {
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-        }}
+        }
 
-        .header {{
+        .header {
             text-align: center;
             padding: 30px 0;
             border-bottom: 2px solid #00ff41;
             margin-bottom: 30px;
-        }}
+        }
 
-        .badge {{
+        .badge {
             display: inline-block;
             background: #00ff41;
             color: #0a0e27;
@@ -125,29 +61,29 @@ class LandingPageGenerator:
             margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
-        }}
+        }
 
-        .nft-number {{
+        .nft-number {
             font-size: 14px;
             color: #00ff41;
             margin-bottom: 8px;
             font-weight: 600;
-        }}
+        }
 
-        h1 {{
+        h1 {
             font-size: 28px;
             color: #ffffff;
             margin-bottom: 8px;
             font-weight: 700;
-        }}
+        }
 
-        .blockchain {{
+        .blockchain {
             font-size: 13px;
             color: #888;
             text-transform: uppercase;
-        }}
+        }
 
-        .nft-image {{
+        .nft-image {
             width: 100%;
             max-width: 400px;
             margin: 0 auto 30px;
@@ -155,65 +91,65 @@ class LandingPageGenerator:
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0, 255, 65, 0.2);
             background: #1a1f3a;
-        }}
+        }
 
-        .story-section {{
+        .story-section {
             background: rgba(0, 255, 65, 0.05);
             border-left: 4px solid #00ff41;
             padding: 20px;
             margin-bottom: 30px;
             border-radius: 8px;
-        }}
+        }
 
-        .story-section h2 {{
+        .story-section h2 {
             font-size: 16px;
             color: #00ff41;
             margin-bottom: 12px;
             font-weight: 600;
-        }}
+        }
 
-        .story-section p {{
+        .story-section p {
             font-size: 15px;
             color: #d0d0d0;
             line-height: 1.7;
-        }}
+        }
 
-        .price-section {{
+        .price-section {
             text-align: center;
             padding: 25px;
             background: linear-gradient(135deg, #1a1f3a 0%, #0a0e27 100%);
             border-radius: 12px;
             margin-bottom: 25px;
             border: 1px solid #00ff41;
-        }}
+        }
 
-        .price-label {{
+        .price-label {
             font-size: 13px;
             color: #888;
             margin-bottom: 8px;
             text-transform: uppercase;
-        }}
+        }
 
-        .price {{
+        .price {
             font-size: 32px;
             color: #00ff41;
             font-weight: bold;
             margin-bottom: 8px;
-        }}
+        }
 
-        .price-usd {{
+        .price-usd {
             font-size: 16px;
             color: #aaa;
-        }}
+        }
 
-        .marketplace-links {{
+        .marketplace-links {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin-bottom: 25px;
-        }}
+        }
 
-        .marketplace-btn {{
+        .marketplace-btn {
             display: block;
             padding: 16px;
             background: #00ff41;
@@ -225,46 +161,46 @@ class LandingPageGenerator:
             text-align: center;
             transition: all 0.3s;
             box-shadow: 0 4px 12px rgba(0, 255, 65, 0.3);
-        }}
+        }
 
-        .marketplace-btn:active {{
+        .marketplace-btn:active {
             transform: scale(0.95);
-        }}
+        }
 
-        .marketplace-btn .icon {{
+        .marketplace-btn .icon {
             display: block;
             font-size: 24px;
             margin-bottom: 4px;
-        }}
+        }
 
-        .info-grid {{
+        .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin-bottom: 25px;
-        }}
+        }
 
-        .info-card {{
+        .info-card {
             background: rgba(255, 255, 255, 0.05);
             padding: 16px;
             border-radius: 8px;
             text-align: center;
-        }}
+        }
 
-        .info-label {{
+        .info-label {
             font-size: 12px;
             color: #888;
             margin-bottom: 6px;
             text-transform: uppercase;
-        }}
+        }
 
-        .info-value {{
+        .info-value {
             font-size: 16px;
             color: #00ff41;
             font-weight: 600;
-        }}
+        }
 
-        .explorer-link {{
+        .explorer-link {
             display: block;
             text-align: center;
             padding: 14px;
@@ -275,148 +211,148 @@ class LandingPageGenerator:
             font-size: 14px;
             margin-bottom: 25px;
             border: 1px solid rgba(0, 255, 65, 0.3);
-        }}
+        }
 
-        .warning-box {{
+        .warning-box {
             background: rgba(255, 193, 7, 0.1);
             border: 2px solid #ffc107;
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 25px;
-        }}
+        }
 
-        .warning-box strong {{
+        .warning-box strong {
             display: block;
             color: #ffc107;
             font-size: 14px;
             margin-bottom: 8px;
-        }}
+        }
 
-        .warning-box p {{
+        .warning-box p {
             font-size: 13px;
             color: #d0d0d0;
             line-height: 1.6;
-        }}
+        }
 
-        .tech-specs {{
+        .tech-specs {
             background: rgba(255, 255, 255, 0.03);
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 25px;
-        }}
+        }
 
-        .tech-specs h3 {{
+        .tech-specs h3 {
             font-size: 14px;
             color: #00ff41;
             margin-bottom: 12px;
             text-transform: uppercase;
-        }}
+        }
 
-        .tech-item {{
+        .tech-item {
             padding: 10px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 13px;
             color: #ccc;
-        }}
+        }
 
-        .tech-item:last-child {{
+        .tech-item:last-child {
             border-bottom: none;
-        }}
+        }
 
-        .footer {{
+        .footer {
             text-align: center;
             padding-top: 30px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 12px;
             color: #666;
-        }}
+        }
 
-        .footer a {{
+        .footer a {
             color: #00ff41;
             text-decoration: none;
-        }}
+        }
 
-        .holder-section {{
+        .holder-section {
             background: rgba(0, 255, 65, 0.05);
             border: 2px solid #00ff41;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 25px;
-        }}
+        }
 
-        .holder-section h3 {{
+        .holder-section h3 {
             font-size: 16px;
             color: #00ff41;
             margin-bottom: 16px;
             text-transform: uppercase;
             font-weight: 600;
-        }}
+        }
 
-        .holder-info {{
+        .holder-info {
             background: rgba(0, 0, 0, 0.3);
             padding: 16px;
             border-radius: 8px;
             margin-bottom: 16px;
-        }}
+        }
 
-        .holder-label {{
+        .holder-label {
             font-size: 12px;
             color: #888;
             margin-bottom: 6px;
             text-transform: uppercase;
-        }}
+        }
 
-        .holder-address {{
+        .holder-address {
             font-size: 14px;
             color: #00ff41;
             font-family: 'Courier New', monospace;
             word-break: break-all;
             margin-bottom: 10px;
-        }}
+        }
 
-        .collection-grid {{
+        .collection-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             gap: 12px;
             margin-top: 16px;
-        }}
+        }
 
-        .collection-item {{
+        .collection-item {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 8px;
             overflow: hidden;
             text-decoration: none;
             transition: transform 0.2s;
             border: 1px solid rgba(0, 255, 65, 0.2);
-        }}
+        }
 
-        .collection-item:hover {{
+        .collection-item:hover {
             transform: scale(1.05);
             border-color: #00ff41;
-        }}
+        }
 
-        .collection-item img {{
+        .collection-item img {
             width: 100%;
             height: 120px;
             object-fit: cover;
             background: #1a1f3a;
-        }}
+        }
 
-        .collection-item .nft-id {{
+        .collection-item .nft-id {
             padding: 8px;
             text-align: center;
             font-size: 12px;
             color: #00ff41;
             font-weight: 600;
-        }}
+        }
 
-        .loading-spinner {{
+        .loading-spinner {
             text-align: center;
             padding: 20px;
             color: #888;
-        }}
+        }
 
-        .view-opensea-btn {{
+        .view-opensea-btn {
             display: block;
             text-align: center;
             padding: 12px;
@@ -428,25 +364,25 @@ class LandingPageGenerator:
             border: 1px solid #00ff41;
             margin-top: 12px;
             font-weight: 600;
-        }}
+        }
 
-        @media (max-width: 480px) {{
-            .container {{
+        @media (max-width: 480px) {
+            .container {
                 padding: 15px;
-            }}
+            }
 
-            h1 {{
+            h1 {
                 font-size: 24px;
-            }}
+            }
 
-            .price {{
+            .price {
                 font-size: 28px;
-            }}
+            }
 
-            .marketplace-links {{
+            .marketplace-links {
                 grid-template-columns: 1fr;
-            }}
-        }}
+            }
+        }
     </style>
 </head>
 <body>
@@ -454,39 +390,39 @@ class LandingPageGenerator:
         <!-- Header -->
         <div class="header">
             <div class="badge">🤖 Automation Experiment</div>
-            <div class="nft-number">NFT #{nft_index:03d}</div>
-            <h1>{nft_data['title']}</h1>
-            <div class="blockchain">{blockchain} Blockchain</div>
+            <div class="nft-number">NFT #002</div>
+            <h1>Day 2: Installing ComfyUI</h1>
+            <div class="blockchain">Polygon Blockchain</div>
         </div>
 
         <!-- NFT Image -->
-        <img src="../images/nft_{nft_index:03d}.png"
-             alt="{nft_data['title']}"
+        <img src="../images/nft_002.png"
+             alt="Day 2: Installing ComfyUI"
              class="nft-image"
              loading="lazy">
 
         <!-- Story Section -->
         <div class="story-section">
             <h2>📖 Story</h2>
-            <p>{short_desc}</p>
+            <p>CPU-only Stable Diffusion. This will be slow.</p>
         </div>
 
         <!-- Price Section -->
         <div class="price-section">
             <div class="price-label">Fixed Price</div>
-            <div class="price">${price_usd}</div>
-            <div class="price-usd">≈ {price_display}</div>
+            <div class="price">$10</div>
+            <div class="price-usd">≈ 11.11 MATIC</div>
         </div>
 
         <!-- Marketplace Links -->
         <div class="marketplace-links">
-            <a href="{marketplace1_url}" class="marketplace-btn" target="_blank" rel="noopener">
+            <a href="https://opensea.io/assets/matic/0xf5420c3E42bb575a2c15434278655c837ca3783E/3" class="marketplace-btn" target="_blank" rel="noopener">
                 <span class="icon">🛒</span>
-                {marketplace1_name}
+                OpenSea
             </a>
-            <a href="{marketplace2_url}" class="marketplace-btn" target="_blank" rel="noopener">
+            <a href="https://rarible.com/token/polygon/0xf5420c3E42bb575a2c15434278655c837ca3783E:3" class="marketplace-btn" target="_blank" rel="noopener">
                 <span class="icon">🛒</span>
-                {marketplace2_name}
+                Rarible
             </a>
         </div>
 
@@ -494,7 +430,7 @@ class LandingPageGenerator:
         <div class="info-grid">
             <div class="info-card">
                 <div class="info-label">Day</div>
-                <div class="info-value">{nft_index}</div>
+                <div class="info-value">2</div>
             </div>
             <div class="info-card">
                 <div class="info-label">Style</div>
@@ -502,7 +438,7 @@ class LandingPageGenerator:
             </div>
             <div class="info-card">
                 <div class="info-label">Chain</div>
-                <div class="info-value">{blockchain}</div>
+                <div class="info-value">Polygon</div>
             </div>
             <div class="info-card">
                 <div class="info-label">Hardware</div>
@@ -511,7 +447,7 @@ class LandingPageGenerator:
         </div>
 
         <!-- Explorer Link -->
-        <a href="{explorer_url}" class="explorer-link" target="_blank" rel="noopener">
+        <a href="https://polygonscan.com/token/0xf5420c3E42bb575a2c15434278655c837ca3783E?a=3" class="explorer-link" target="_blank" rel="noopener">
             🔍 View on Blockchain Explorer
         </a>
 
@@ -550,232 +486,171 @@ class LandingPageGenerator:
         <!-- Footer -->
         <div class="footer">
             <p>Generated with Intel N100 CPU | <a href="../index.html">View All NFTs</a></p>
-            <p style="margin-top: 10px; font-size: 11px;">Last Updated: {datetime.now().strftime('%Y-%m-%d')}</p>
+            <p style="margin-top: 10px; font-size: 11px;">Last Updated: 2025-10-24</p>
         </div>
     </div>
 
     <!-- JavaScript for fetching holder data -->
     <script>
-        const CONTRACT_ADDRESS = '{contract if blockchain == "Polygon" else ""}';
-        const TOKEN_ID = {token_id if blockchain == "Polygon" else 0};
-        const BLOCKCHAIN = '{blockchain}';
+        const CONTRACT_ADDRESS = '0xf5420c3E42bb575a2c15434278655c837ca3783E';
+        const TOKEN_ID = 3;
+        const BLOCKCHAIN = 'Polygon';
 
         // Polygon RPC endpoint
         const POLYGON_RPC = 'https://polygon-rpc.com/';
 
         // ERC-721 ABI (only ownerOf function needed)
-        const ERC721_ABI = [{{
-            "inputs": [{{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }}],
+        const ERC721_ABI = [{
+            "inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }],
             "name": "ownerOf",
-            "outputs": [{{ "internalType": "address", "name": "", "type": "address" }}],
+            "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
             "stateMutability": "view",
             "type": "function"
-        }}, {{
-            "inputs": [{{ "internalType": "address", "name": "owner", "type": "address" }}],
+        }, {
+            "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }],
             "name": "balanceOf",
-            "outputs": [{{ "internalType": "uint256", "name": "", "type": "uint256" }}],
+            "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
             "stateMutability": "view",
             "type": "function"
-        }}, {{
-            "inputs": [{{ "internalType": "address", "name": "owner", "type": "address" }}, {{ "internalType": "uint256", "name": "index", "type": "uint256" }}],
+        }, {
+            "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "uint256", "name": "index", "type": "uint256" }],
             "name": "tokenOfOwnerByIndex",
-            "outputs": [{{ "internalType": "uint256", "name": "", "type": "uint256" }}],
+            "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
             "stateMutability": "view",
             "type": "function"
-        }}];
+        }];
 
-        async function fetchOwner() {{
-            try {{
+        async function fetchOwner() {
+            try {
                 // Call ownerOf function
-                const data = {{
+                const data = {
                     jsonrpc: '2.0',
                     method: 'eth_call',
-                    params: [{{
+                    params: [{
                         to: CONTRACT_ADDRESS,
                         data: '0x6352211e' + TOKEN_ID.toString(16).padStart(64, '0')
-                    }}, 'latest'],
+                    }, 'latest'],
                     id: 1
-                }};
+                };
 
-                const response = await fetch(POLYGON_RPC, {{
+                const response = await fetch(POLYGON_RPC, {
                     method: 'POST',
-                    headers: {{ 'Content-Type': 'application/json' }},
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
-                }});
+                });
 
                 const result = await response.json();
 
-                if (result.result) {{
+                if (result.result) {
                     const ownerAddress = '0x' + result.result.slice(-40);
                     document.getElementById('holder-address').textContent = ownerAddress;
 
                     // Set OpenSea profile link
                     const profileLink = document.getElementById('opensea-profile-link');
-                    profileLink.href = `https://opensea.io/${{ownerAddress}}?search[chains][0]=MATIC`;
+                    profileLink.href = `https://opensea.io/${ownerAddress}?search[chains][0]=MATIC`;
                     profileLink.style.display = 'block';
 
                     // Fetch owner's collection
                     await fetchOwnerCollection(ownerAddress);
-                }} else {{
+                } else {
                     document.getElementById('holder-address').textContent = 'Not yet minted';
                     document.getElementById('holder-collection').innerHTML = '<div class="loading-spinner">NFT not yet claimed</div>';
-                }}
-            }} catch (error) {{
+                }
+            } catch (error) {
                 console.error('Error fetching owner:', error);
                 document.getElementById('holder-address').textContent = 'Error loading';
                 document.getElementById('holder-collection').innerHTML = '<div class="loading-spinner">Failed to load collection</div>';
-            }}
-        }}
+            }
+        }
 
-        async function fetchOwnerCollection(ownerAddress) {{
-            try {{
+        async function fetchOwnerCollection(ownerAddress) {
+            try {
                 // Get balance
-                const balanceData = {{
+                const balanceData = {
                     jsonrpc: '2.0',
                     method: 'eth_call',
-                    params: [{{
+                    params: [{
                         to: CONTRACT_ADDRESS,
                         data: '0x70a08231' + ownerAddress.slice(2).padStart(64, '0')
-                    }}, 'latest'],
+                    }, 'latest'],
                     id: 2
-                }};
+                };
 
-                const balanceResponse = await fetch(POLYGON_RPC, {{
+                const balanceResponse = await fetch(POLYGON_RPC, {
                     method: 'POST',
-                    headers: {{ 'Content-Type': 'application/json' }},
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(balanceData)
-                }});
+                });
 
                 const balanceResult = await balanceResponse.json();
                 const balance = parseInt(balanceResult.result, 16);
 
-                if (balance === 0) {{
+                if (balance === 0) {
                     document.getElementById('holder-collection').innerHTML = '<div class="loading-spinner">No NFTs from this collection</div>';
                     return;
-                }}
+                }
 
                 // Fetch up to 12 NFTs
                 const maxDisplay = Math.min(balance, 12);
                 let collectionHTML = '<div class="holder-label">Holder owns ' + balance + ' NFT(s) from this collection</div><div class="collection-grid">';
 
-                for (let i = 0; i < maxDisplay; i++) {{
-                    const tokenData = {{
+                for (let i = 0; i < maxDisplay; i++) {
+                    const tokenData = {
                         jsonrpc: '2.0',
                         method: 'eth_call',
-                        params: [{{
+                        params: [{
                             to: CONTRACT_ADDRESS,
                             data: '0x2f745c59' +
                                   ownerAddress.slice(2).padStart(64, '0') +
                                   i.toString(16).padStart(64, '0')
-                        }}, 'latest'],
+                        }, 'latest'],
                         id: 3 + i
-                    }};
+                    };
 
-                    try {{
-                        const tokenResponse = await fetch(POLYGON_RPC, {{
+                    try {
+                        const tokenResponse = await fetch(POLYGON_RPC, {
                             method: 'POST',
-                            headers: {{ 'Content-Type': 'application/json' }},
+                            headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(tokenData)
-                        }});
+                        });
 
                         const tokenResult = await tokenResponse.json();
                         const tokenId = parseInt(tokenResult.result, 16);
                         const nftIndex = tokenId - 1; // Token ID starts from 1, index from 0
 
                         collectionHTML += `
-                            <a href="${{nftIndex}}.html" class="collection-item">
-                                <img src="../images/nft_${{nftIndex.toString().padStart(3, '0')}}.png"
-                                     alt="NFT #${{nftIndex}}"
-                                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 100 100\\'%3E%3Crect fill=\\'%231a1f3a\\' width=\\'100\\' height=\\'100\\'/%3E%3Ctext x=\\'50\\' y=\\'50\\' text-anchor=\\'middle\\' fill=\\'%2300ff41\\' font-size=\\'12\\'%3E#${{nftIndex}}%3C/text%3E%3C/svg%3E'">
-                                <div class="nft-id">NFT #${{nftIndex}}</div>
+                            <a href="${nftIndex}.html" class="collection-item">
+                                <img src="../images/nft_${nftIndex.toString().padStart(3, '0')}.png"
+                                     alt="NFT #${nftIndex}"
+                                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect fill=\'%231a1f3a\' width=\'100\' height=\'100\'/%3E%3Ctext x=\'50\' y=\'50\' text-anchor=\'middle\' fill=\'%2300ff41\' font-size=\'12\'%3E#${nftIndex}%3C/text%3E%3C/svg%3E'">
+                                <div class="nft-id">NFT #${nftIndex}</div>
                             </a>
                         `;
-                    }} catch (err) {{
+                    } catch (err) {
                         console.error('Error fetching token', i, err);
-                    }}
-                }}
+                    }
+                }
 
                 collectionHTML += '</div>';
 
-                if (balance > maxDisplay) {{
-                    collectionHTML += `<div style="text-align: center; margin-top: 12px; color: #888; font-size: 13px;">... and ${{balance - maxDisplay}} more</div>`;
-                }}
+                if (balance > maxDisplay) {
+                    collectionHTML += `<div style="text-align: center; margin-top: 12px; color: #888; font-size: 13px;">... and ${balance - maxDisplay} more</div>`;
+                }
 
                 document.getElementById('holder-collection').innerHTML = collectionHTML;
-            }} catch (error) {{
+            } catch (error) {
                 console.error('Error fetching collection:', error);
                 document.getElementById('holder-collection').innerHTML = '<div class="loading-spinner">Failed to load collection</div>';
-            }}
-        }}
+            }
+        }
 
         // Load owner data when page loads
-        if (BLOCKCHAIN === 'Polygon' && CONTRACT_ADDRESS) {{
+        if (BLOCKCHAIN === 'Polygon' && CONTRACT_ADDRESS) {
             fetchOwner();
-        }} else {{
+        } else {
             document.getElementById('holder-address').textContent = 'Solana blockchain - View on Explorer';
             document.getElementById('holder-collection').innerHTML = '<div class="loading-spinner">Solana holder info coming soon</div>';
-        }}
+        }
     </script>
 </body>
 </html>
-"""
-
-        # Write HTML file
-        output_file = self.output_dir / f"{nft_index}.html"
-        with open(output_file, 'w', encoding='utf-8') as f:
-            f.write(html_template)
-
-        # Update gallery JSON
-        self.update_gallery(nft_data)
-
-        return f"https://{domain}/nft/{nft_index}.html"
-
-    def update_gallery(self, nft_data):
-        """Update gallery.json with new NFT"""
-        if self.gallery_file.exists():
-            with open(self.gallery_file, 'r', encoding='utf-8') as f:
-                gallery = json.load(f)
-        else:
-            gallery = {"nfts": []}
-
-        # Remove existing entry
-        gallery["nfts"] = [nft for nft in gallery["nfts"] if nft["index"] != nft_data["index"]]
-
-        # Add new NFT
-        gallery["nfts"].append({
-            "index": nft_data["index"],
-            "title": nft_data["title"],
-            "description": nft_data["description"][:100] + "...",
-            "image": f"./images/nft_{nft_data['index']:03d}.png",
-            "mint_url": nft_data["mint_url"],
-            "landing_url": f"./nft/{nft_data['index']}.html",
-            "price": nft_data["price"],
-            "style": nft_data.get("style", "pixelart"),
-            "blockchain": nft_data.get("blockchain", "Polygon"),
-            "created_at": nft_data.get("created_at", datetime.now().isoformat())
-        })
-
-        # Sort by index
-        gallery["nfts"].sort(key=lambda x: x["index"], reverse=True)
-
-        # Save
-        self.gallery_file.parent.mkdir(parents=True, exist_ok=True)
-        with open(self.gallery_file, 'w', encoding='utf-8') as f:
-            json.dump(gallery, f, indent=2, ensure_ascii=False)
-
-
-if __name__ == "__main__":
-    # Test
-    gen = LandingPageGenerator()
-    test_data = {
-        "index": 0,
-        "title": "Day 0: The Idea",
-        "description": "Got a crazy idea. Can a Mini PC make NFTs?",
-        "mint_url": "https://opensea.io/assets/matic/0xf5420c.../1",
-        "price": 10,
-        "style": "pixelart",
-        "blockchain": "Polygon",
-        "created_at": "2025-10-24 00:00:00"
-    }
-    url = gen.generate_nft_page(test_data)
-    print(f"Generated: {url}")
